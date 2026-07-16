@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>google-signin</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.339554564506-4k9qsdflimgepql31pm4v4ao396nd5h1</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleDisplayName</key>
+	<string>klink</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+
+	<!-- 17 app icons: the primary icon comes from the asset catalog
+	     (Assets.xcassets/AppIcon), the other 16 are loose PNG sets under
+	     AlternateIcons/, switched at runtime via IconManager. -->
+	<key>CFBundleIcons</key>
+	<dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconName</key>
+			<string>AppIcon</string>
+		</dict>
+		<key>CFBundleAlternateIcons</key>
+		<dict>
+			<key>AppIcon-ColdWhite</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array><string>AppIcon-ColdWhite</string></array>
+				<key>UIPrerenderedIcon</key><false/>
+			</dict>
+			<key>AppIcon-Midnight</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array><string>AppIcon-Midnight</string></array>
+				<key>UIPrerenderedIcon</key><false/>
+			</dict>
+			<key>AppIcon-Ocean</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array><string>AppIcon-Ocean</string></array>
+				<key>UIPrerenderedIcon</key><false/>
+			</dict>
+			<key>AppIcon-Forest</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array><string>AppIcon-Forest</string></array>
+				<key>UIPrerenderedIcon</key><false/>
+			</dict>
+			<key>AppIcon-Sunset</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array><string>AppIcon-Sunset</string></array>
+				<key>UIPrerenderedIcon</key><false/>
+			</dict>
+			<key>AppIcon-Rose</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array><string>AppIcon-Rose</string></array>
+				<key>UIPrerenderedIcon</key><false/>
+			</dict>
+			<key>AppIcon-Grape</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array><string>AppIcon-Grape</string></array>
+				<key>UIPrerenderedIcon</key><false/>
+			</dict>
+			<key>AppIcon-Outline</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array><string>AppIcon-Outline</string></array>
+				<key>UIPrerenderedIcon</key><false/>
+			</dict>
+			<key>AppIcon-Neon</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array><string>AppIcon-Neon</string></array>
+				<key>UIPrerenderedIcon</key><false/>
+			</dict>
+			<key>AppIcon-Mint</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array><string>AppIcon-Mint</string></array>
+				<key>UIPrerenderedIcon</key><false/>
+			</dict>
+			<key>AppIcon-Sand</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array><string>AppIcon-Sand</string></array>
+				<key>UIPrerenderedIcon</key><false/>
+			</dict>
+			<key>AppIcon-Steel</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array><string>AppIcon-Steel</string></array>
+				<key>UIPrerenderedIcon</key><false/>
+			</dict>
+			<key>AppIcon-Ember</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array><string>AppIcon-Ember</string></array>
+				<key>UIPrerenderedIcon</key><false/>
+			</dict>
+			<key>AppIcon-Sky</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array><string>AppIcon-Sky</string></array>
+				<key>UIPrerenderedIcon</key><false/>
+			</dict>
+			<key>AppIcon-Noir</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array><string>AppIcon-Noir</string></array>
+				<key>UIPrerenderedIcon</key><false/>
+			</dict>
+			<key>AppIcon-Multicolor</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array><string>AppIcon-Multicolor</string></array>
+				<key>UIPrerenderedIcon</key><false/>
+			</dict>
+		</dict>
+	</dict>
+
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>UILaunchScreen</key>
+	<dict/>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<true/>
+
+	<!-- English is the app's language; layout follows the system default
+	     (left-to-right). -->
+	<key>CFBundleAllowMixedLocalizations</key>
+	<true/>
+
+	<!-- Media / security permission strings — required for camera, photo
+	     library, microphone (voice messages), and Face ID (app lock). -->
+	<key>NSCameraUsageDescription</key>
+	<string>klink uses the camera to capture photos and videos to send in chats.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>klink needs access to your photo library to send photos and videos in chats.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>klink needs permission to save media you receive to your photo library.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>klink uses the microphone to record voice messages and calls.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>klink uses Face ID to lock the app and protect your conversations.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>klink uses your contacts to help you find friends who are already on the app.</string>
+
+	<!-- Networking: only Firebase/Google endpoints over HTTPS are contacted,
+	     so no ATS exceptions are needed. -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+	</dict>
+</dict>
+</plist>

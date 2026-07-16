@@ -1,0 +1,154 @@
+workflows:
+  klink-ios-debug:
+    name: klink iOS (unsigned device build, for Sideloadly/AltStore free signing)
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    environment:
+      xcode: latest
+      cocoapods: default
+      vars:
+        XCODE_PROJECT: "klink.xcodeproj"
+        XCODE_SCHEME: "klink"
+        BUNDLE_ID: "app.klink.mobile"
+    scripts:
+      - name: Install XcodeGen
+        script: |
+          # Skip Homebrew's auto-update (slow, and not needed here) and
+          # clean up any broken/partial Cellar entry from a previous failed
+          # install on this build machine before installing fresh.
+          export HOMEBREW_NO_AUTO_UPDATE=1
+          export HOMEBREW_NO_INSTALL_CLEANUP=1
+          if [ -e /opt/homebrew/Cellar/xcodegen ] && [ ! -d /opt/homebrew/Cellar/xcodegen ]; then
+            rm -f /opt/homebrew/Cellar/xcodegen
+          fi
+          brew install xcodegen || brew reinstall xcodegen
+          xcodegen --version
+
+      # project.yml lives at the repo root (not inside klink/), so generate
+      # the .xcodeproj from here. Paths inside project.yml already point at
+      # the nested klink/ source tree.
+      - name: Generate Xcode project from project.yml
+        script: |
+          xcodegen generate
+
+      - name: Resolve Swift Package dependencies
+        script: |
+          xcodebuild -resolvePackageDependencies -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME"
+
+      - name: Archive for real iOS devices (unsigned — for Sideloadly)
+        script: |
+          xcodebuild -project "$XCODE_PROJECT" \
+            -scheme "$XCODE_SCHEME" \
+            -configuration Release \
+            -sdk iphoneos \
+            -archivePath build/klink.xcarchive \
+            -derivedDataPath build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            DEVELOPMENT_TEAM="" \
+            PROVISIONING_PROFILE_SPECIFIER="" \
+            archive
+
+      - name: Package the unsigned archive as an .ipa
+        script: |
+          # `xcodebuild archive` produces a .xcarchive, not a ready-to-sideload
+          # .ipa. Since there's no signing identity at all (free/no paid
+          # account), we can't use `xcodebuild -exportArchive` (it always
+          # requires some signing configuration) — instead we manually zip
+          # the archive's .app into the Payload/ folder structure an .ipa
+          # actually is. Sideloadly (or AltStore) then does its own signing
+          # with your free Apple ID when installing this onto your device.
+          set -e
+          APP_PATH=$(find build/klink.xcarchive/Products/Applications -maxdepth 1 -name "*.app")
+          echo "Found app at: $APP_PATH"
+          mkdir -p build/ipa/Payload
+          cp -R "$APP_PATH" build/ipa/Payload/
+          cd build/ipa
+          zip -r -q ../klink-unsigned.ipa Payload
+          cd ../..
+          ls -lh build/klink-unsigned.ipa
+    artifacts:
+      - build/klink-unsigned.ipa
+      - /tmp/xcodebuild_logs/*.log
+
+  klink-ios-release:
+    name: klink iOS (signed release, App Store / ad-hoc)
+    max_build_duration: 90
+    instance_type: mac_mini_m2
+    environment:
+      xcode: latest
+      cocoapods: default
+      vars:
+        XCODE_PROJECT: "klink.xcodeproj"
+        XCODE_SCHEME: "klink"
+        BUNDLE_ID: "app.klink.mobile"
+      # Configure these in Codemagic's UI under Team settings → Team
+      # integrations → Developer Portal (recommended, then just reference
+      # the integration name below), OR add a variable group named
+      # "ios_signing" containing:
+      #   APP_STORE_CONNECT_ISSUER_ID
+      #   APP_STORE_CONNECT_KEY_IDENTIFIER
+      #   APP_STORE_CONNECT_PRIVATE_KEY
+      groups:
+        - ios_signing
+    scripts:
+      - name: Install XcodeGen
+        script: |
+          # Skip Homebrew's auto-update (slow, and not needed here) and
+          # clean up any broken/partial Cellar entry from a previous failed
+          # install on this build machine before installing fresh.
+          export HOMEBREW_NO_AUTO_UPDATE=1
+          export HOMEBREW_NO_INSTALL_CLEANUP=1
+          if [ -e /opt/homebrew/Cellar/xcodegen ] && [ ! -d /opt/homebrew/Cellar/xcodegen ]; then
+            rm -f /opt/homebrew/Cellar/xcodegen
+          fi
+          brew install xcodegen || brew reinstall xcodegen
+          xcodegen --version
+
+      - name: Generate Xcode project from project.yml
+        script: |
+          xcodegen generate
+
+      - name: Set up keychain for code signing
+        script: |
+          keychain initialize
+
+      - name: Fetch signing files from App Store Connect
+        script: |
+          app-store-connect fetch-signing-files "$BUNDLE_ID" \
+            --type IOS_APP_STORE \
+            --create
+
+      - name: Add certificates to keychain
+        script: |
+          keychain add-certificates
+
+      - name: Apply signing settings to the Xcode project
+        script: |
+          xcode-project use-profiles
+
+      - name: Resolve Swift Package dependencies
+        script: |
+          xcodebuild -resolvePackageDependencies -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME"
+
+      - name: Build and archive
+        script: |
+          xcode-project build-ipa \
+            --project "$XCODE_PROJECT" \
+            --scheme "$XCODE_SCHEME"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      # Uncomment and configure once you have App Store Connect API keys set
+      # up in Codemagic, or switch to email delivery for ad-hoc testing:
+      # app_store_connect:
+      #   auth: integration
+      #   submit_to_testflight: true
+      email:
+        recipients:
+          - your-email@example.com
+        notify:
+          success: true
+          failure: true
